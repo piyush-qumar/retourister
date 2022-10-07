@@ -15,7 +15,7 @@ app.use(morgan('dev'));}
 //console.log(process.env);
 app.use((req,res,next)=>{
     console.log("Request received");
-    //console.log(req.headers);
+    //console.log(req.headers);// its task is to dispaly the headers of the request
     next();
 }) ;
 app.use((req,res,next)=>{
