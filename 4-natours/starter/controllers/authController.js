@@ -18,7 +18,10 @@ exports.signup=catchAsync(async(req,res,next)=>{
         role:req.body.role,
         password:req.body.password,
         passwordConfirm:req.body.passwordConfirm,
-        passwordChangedAt:req.body.passwordChangedAt
+        passwordChangedAt:req.body.passwordChangedAt,
+        passwordResetToken:req.body.passwordResetToken,
+        passwordResetExpires:req.body.passwordResetExpires,
+        active:req.body.active
     });
     // const token=jwt.sign({id:newUser._id},process.env.JWT_SECRET,{
     //     expiresIn:process.env.JWT_EXPIRES_IN
@@ -98,19 +101,19 @@ exports.forgotPassword=catchAsync(async(req,res,next)=>{
     const resetToken=user.createPasswordResetToken();
     await user.save({validateBeforeSave:false});
     //3)Send it to user's email
-    try{
-        const resetURL=`${req.protocol}://${req.get("host")}/api/v1/users/resetPassword/${resetToken}`;
-        await new Email(user,resetURL).sendPasswordReset();
-        res.status(200).json({
-            status:"success",
-            message:"Token sent to email"
-        });
-    }catch(err){
-        user.passwordResetToken=undefined;
-        user.passwordResetExpires=undefined;
-        await user.save({validateBeforeSave:false});
-        return next(new AppError("There was an error sending the email. Try again later",500));
-    }
+    // try{
+    //     const resetURL=`${req.protocol}://${req.get("host")}/api/v1/users/resetPassword/${resetToken}`;
+    //     await new Email(user,resetURL).sendPasswordReset();
+    //     res.status(200).json({
+    //         status:"success",
+    //         message:"Token sent to email"
+    //     });
+    // }catch(err){
+    //     user.passwordResetToken=undefined;
+    //     user.passwordResetExpires=undefined;
+    //     await user.save({validateBeforeSave:false});
+    //     return next(new AppError("There was an error sending the email. Try again later",500));
+    // }
 }
 );
 exports.resetPassword=catchAsync(async(req,res,next)=>{
