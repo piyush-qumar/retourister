@@ -8,6 +8,8 @@ const tourRouter=require("./routes/tourRoutes");
 const userRouter=require("./routes/userRoutes");
 const AppError=require("./utils/AppError")
 const errorHandler=require(".//controllers//errorController");
+const mongoSanitize=require("express-mongo-sanitize");
+const xss=require("xss-clean"); 
 
 // 1) GLOBAL MIDDLEWARES
 // Set security HTTP headers
@@ -21,6 +23,10 @@ app.use(helmet());
 
 //middlewares
 app.use(express.json());
+// data saniize using ,ongosantize(for ex {"$gt":""}) and xss(for ex <script>alert("hello")</script>)
+app.use(mongoSanitize());
+// data sanitize against xss
+app.use(xss())
 app.use(express.static(`${__dirname}/public`)); // serving static files
 if(process.env.NODE_ENV==='development'){  // development login
 app.use(morgan('dev'));}
