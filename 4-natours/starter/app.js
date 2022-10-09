@@ -10,7 +10,7 @@ const AppError=require("./utils/AppError")
 const errorHandler=require(".//controllers//errorController");
 const mongoSanitize=require("express-mongo-sanitize");
 const xss=require("xss-clean"); 
-
+const hpp=require("hpp");
 // 1) GLOBAL MIDDLEWARES
 // Set security HTTP headers
 const limiter=rateLimit({
@@ -27,6 +27,17 @@ app.use(express.json());
 app.use(mongoSanitize());
 // data sanitize against xss
 app.use(xss())
+// prevent parameter pollution
+app.use(hpp({
+    whitelist:[
+        "duration",
+        "ratingsQuantity",
+        "ratingsAverage",
+        "maxGroupSize",
+        "difficulty",
+        "price"
+    ]
+}))
 app.use(express.static(`${__dirname}/public`)); // serving static files
 if(process.env.NODE_ENV==='development'){  // development login
 app.use(morgan('dev'));}
