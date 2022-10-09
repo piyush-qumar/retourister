@@ -9,7 +9,8 @@ const userRouter=require("./routes/userRoutes");
 const AppError=require("./utils/AppError")
 const errorHandler=require(".//controllers//errorController");
 
-
+// 1) GLOBAL MIDDLEWARES
+// Set security HTTP headers
 const limiter=rateLimit({
     max:100,
     windowMs:60*60*1000,
@@ -20,8 +21,8 @@ app.use(helmet());
 
 //middlewares
 app.use(express.json());
-app.use(express.static(`${__dirname}/public`));
-if(process.env.NODE_ENV==='development'){
+app.use(express.static(`${__dirname}/public`)); // serving static files
+if(process.env.NODE_ENV==='development'){  // development login
 app.use(morgan('dev'));}
 //console.log(app.get('env'));
 //console.log(process.env);
