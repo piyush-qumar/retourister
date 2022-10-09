@@ -1,11 +1,23 @@
 const express=require("express");
 const bodyParser=require("body-parser");
+const rateLimit=require("express-rate-limit");
 const morgan=require("morgan");
+const helmet=require("helmet");
 const app=express();
 const tourRouter=require("./routes/tourRoutes");
 const userRouter=require("./routes/userRoutes");
 const AppError=require("./utils/AppError")
 const errorHandler=require(".//controllers//errorController");
+
+
+const limiter=rateLimit({
+    max:100,
+    windowMs:60*60*1000,
+    message:"Too many requests from this IP,please try again in an hour"
+});
+app.use("/api",limiter);
+app.use(helmet());
+
 //middlewares
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
@@ -13,6 +25,7 @@ if(process.env.NODE_ENV==='development'){
 app.use(morgan('dev'));}
 //console.log(app.get('env'));
 //console.log(process.env);
+
 app.use((req,res,next)=>{
     console.log("Request received");
     //console.log(req.headers);// its task is to dispaly the headers of the request

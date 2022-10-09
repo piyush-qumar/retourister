@@ -65,6 +65,10 @@ userSchema.pre('save',function(next){
     this.passwordChangedAt=Date.now()-1000;
     next();
 });
+userSchema.pre(/^find/,function(next){
+    this.find({active:true});   // this.find({active:{$ne:false}});  // we can also use this in case of some conflict
+    next();
+})
 
 
  
