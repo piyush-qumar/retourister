@@ -10,7 +10,7 @@ const DB=process.env.DATABASE.replace('<PASSWORD>',process.env.DATABASE_PASSWORD
 mongoose.connect(process.env.DATABASE_LOCAL, {
     useNewUrlParser:true,   //to avoid deprecation warning
 }).then(()=>console.log(`DB is connected`)).catch(err=>console.log(err));
-const tours= JSON.parse(fs.readFileSync(`${__dirname}/tours-simple.json`,'utf-8'));
+const tours= JSON.parse(fs.readFileSync(`${__dirname}/tours.json`,'utf-8'));
 //const users= JSON.parse(fs.readFileSync(`${__dirname}/users.json`,'utf-8'));
 //send all data to the db
 const bringData=async()=>{
