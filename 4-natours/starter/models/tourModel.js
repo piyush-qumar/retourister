@@ -120,12 +120,12 @@ const tourSchema=new mongoose.Schema({
             ref:'User'
         }
     ],
-    reviews:[
-        {
-            type:mongoose.Schema.ObjectId,
-            ref:'Review'
-        }
-    ]
+    // reviews:[
+    //     {
+    //         type:mongoose.Schema.ObjectId,
+    //         ref:'Review'
+    //     }
+    // ]
     },
     
 {
@@ -133,9 +133,17 @@ const tourSchema=new mongoose.Schema({
     toObject:{virtuals:true}
 
 });
+tourSchema.index({price:1,ratingsAverage:-1});  // will see later
 tourSchema.virtual('durarionWeeks').get(function(){
     return this.duration/7;
 });
+
+tourSchema.virtual('reviews',{
+    ref:'Review',
+    foreignField:'tour',
+    localField:'_id'
+});
+
 tourSchema.pre('save',function(next){
     this.slug=slugify(this.name,{lower:true});
     next();

@@ -32,8 +32,8 @@ exports.getAllTours=catchAsync(async(req,res,next)=>{
     })
 })
 exports.getTour=catchAsync(async(req,res,next)=>{
-        const x=await Tour.findById(req.params.id).populate({
-            path:'guides',
+        const x=await Tour.findById(req.params.id).populate({       
+            path:'guides reviews',                              // guides and select can be removed
             select:'-__v -passwordChangedAt'
         });
         if(!x)
