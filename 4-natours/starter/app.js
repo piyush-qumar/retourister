@@ -6,6 +6,7 @@ const helmet=require("helmet");
 const app=express();
 const tourRouter=require("./routes/tourRoutes");
 const userRouter=require("./routes/userRoutes");
+const reviewRouter=require("./routes/reviewRoutes");
 const AppError=require("./utils/AppError")
 const errorHandler=require(".//controllers//errorController");
 const mongoSanitize=require("express-mongo-sanitize");
@@ -63,6 +64,7 @@ app.use((req,res,next)=>{
 // app.delete("/api/tours/:id",deleteTour);
 app.use("/api/tours",tourRouter);
 app.use("/api/users",userRouter);
+app.use("/api/reviews",reviewRouter);
 app.all("*",(req,res,next)=>{
     next(new AppError(`Invalid endpoint`));
     // const err=new Error(`Invalid endpoint`);
