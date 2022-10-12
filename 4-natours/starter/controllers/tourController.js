@@ -33,32 +33,34 @@ exports.getAllTours=catchAsync(async(req,res,next)=>{
         }
     })
 })
-exports.getTour=catchAsync(async(req,res,next)=>{
-        const x=await Tour.findById(req.params.id).populate({       
-            path:'guides reviews',                              // guides and select can be removed
-            select:'-__v -passwordChangedAt'
-        });
-        if(!x)
-        {
-            return next(new AppError('No tour found with that ID',404));
-        }
-        res.status(200).json({
-            status:"success",
-            requestedAt:req.time,
-            data: {
-                x
-            }
-        })
-})
+exports.getTour=factory.getOne(Tour,{path:'reviews'});  //"select only name and photo" can also be used
+// catchAsync(async(req,res,next)=>{                    //for ex:  select:'name photo'
+// const x=await Tour.findById(req.params.id).populate({       
+//             path:'guides reviews',                              // guides and select can be removed
+//             select:'-__v -passwordChangedAt'
+//         });
+//         if(!x)
+//         {
+//             return next(new AppError('No tour found with that ID',404));
+//         }
+//         res.status(200).json({
+//             status:"success",
+//             requestedAt:req.time,
+//             data: {
+//                 x
+//             }
+//         })
+// })
 
-exports.createTour=catchAsync(async(req,res,next)=>{
-    const newTour=await Tour.create(req.body);
-    res.status(201).json({
-        status:"success",
-        data:{
-            tour:newTour,
-        }
-    });
+exports.createTour=factory.createOne(Tour);
+// catchAsync(async(req,res,next)=>{
+//     const newTour=await Tour.create(req.body);
+//     res.status(201).json({
+//         status:"success",
+//         data:{
+//             tour:newTour,
+//         }
+//     });
 //     try{
        
 // }catch(err){
@@ -67,8 +69,7 @@ exports.createTour=catchAsync(async(req,res,next)=>{
 //         message:err,
 //     });
 // 
-
-});
+//});
     
 exports.updateTour= factory.updateOne(Tour);
 // catchAsync(async(req,res,next)=>{
