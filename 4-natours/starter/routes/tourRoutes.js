@@ -5,17 +5,24 @@ const authController=require('./..//controllers///authController');
 const reviewRouter=require("./reviewRoutes");
 router.use('/:tourId/reviews',reviewRouter);
 
-//const reviewController=require("./../controllers/reviewController")
-//router.param("id",tourController.checkID);
+router.route('/5-cheapest')
+.get(tourController.aliass,tourController.getAllTours);
 
-router.route('/5-cheapest').get(tourController.aliass,tourController.getAllTours);
-router.route('/get-stats').get(tourController.getTourStats);
-router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
+router.route('/get-stats')
+.get(tourController.getTourStats);
 
-router.route("/").get(authController.protect,tourController.getAllTours).post(tourController.createTour);
+router.route('/monthly-plan/:year')
+.get(authController.protect,authController.restrictTo('admin','lead-guide','guide'),tourController.getMonthlyPlan);
 
-router.route("/:id").get(tourController.getTour).patch(tourController.updateTour).delete(authController.protect,authController.restrictTo('admin','lead-guide'),tourController.deleteTour);
-//router.route('/:tourId/reviews').post(authController.protect,authController.restrictTo('user'),reviewController.createReview);
+router.route("/")
+.get(tourController.getAllTours)
+.post(authController.restrictTo('admin','lead-guide'),tourController.createTour);
+
+router.route("/:id")
+.get(tourController.getTour)
+.patch(authController.protect,authController.restrictTo('admin','lead-guide'),tourController.updateTour)
+.delete(authController.protect,authController.restrictTo('admin','lead-guide'),tourController.deleteTour);
+
 module.exports=router;
 
 

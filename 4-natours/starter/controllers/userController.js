@@ -13,19 +13,12 @@ const filterObj=(obj, ...allowedFields)=>{
     })
     return newObj;
 }
+exports.getMe=(req,res,next)=>{
+    req.params.id=req.user.id;
+    next();
+}
 
-exports.getAllUsers=factory.getAll(User);
-// catchAsync(async(req,res,next)=>{
-//     const user=await User.find();
-//     res.status(200).json({
-//         status:"success",
-//         requestedAt:req.time,
-//         results: user.length,
-//         data: {
-//             user
-//         }
-//     })
-// });
+
 exports.updateMe=catchAsync(async(req,res,next)=>{
     // 1> error if user tries to update password in this route
     if(req.body.password||req.body.passwordConfirm){
@@ -60,6 +53,18 @@ exports.createUser=(req,res)=>{
         message:"Please use signup instead of this route"
     })
 };
+exports.getAllUsers=factory.getAll(User);
+// catchAsync(async(req,res,next)=>{
+//     const user=await User.find();
+//     res.status(200).json({
+//         status:"success",
+//         requestedAt:req.time,
+//         results: user.length,
+//         data: {
+//             user
+//         }
+//     })
+// });
 exports.getUser=factory.getOne(User);
 // (req,res)=>{
 //     res.status(500).json({
