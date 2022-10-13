@@ -120,12 +120,6 @@ const tourSchema=new mongoose.Schema({
             ref:'User'
         }
     ],
-    // reviews:[
-    //     {
-    //         type:mongoose.Schema.ObjectId,
-    //         ref:'Review'
-    //     }
-    // ]
     },
     
 {
@@ -178,27 +172,5 @@ tourSchema.pre('aggregate',function(next){
     console.log(this.pipeline());
     next();
 })
-//tourSchema.pre(/^find/,function(next){
-
-//})
-// tourSchema.pre('save',function(next){
-//     console.log('Will save document');
-//     next();
-// }).post('save',function(doc,next){
-//     console.log('Document has been saved');
-//     console.log(doc);
-//     next();
-// });
 const Tour=mongoose.model('Tour',tourSchema);
-// const testTour=new Tour({
-//     name:'jharkhan',
-//     price:100,
-//     rating:4.5
-// });
-// testTour.save().then(doc=>{
-//     console.log(doc);
-// })
-// .catch(err=>{
-//     console.log(err);
-// });
 module.exports=Tour;

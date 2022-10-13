@@ -1,6 +1,20 @@
+// {
+//     "name":"test tour",
+//     "duration":5,
+//     "maxGroupSize":25,
+//     "difficulty":"easy",
+//     "ratingsAverage":4.7,
+//     "ratingsQuantity":37,
+//     "price":497,
+//     "summary":"test tour",
+//     "description":"test tour",
+//     "imageCover":"tour-1-cover.jpg",
+//     "images":["tour-1-1.jpg","tour-1-2.jpg","tour-1-3.jpg"],
+//     "startDates":["2021-03-01","2021-04-01"]
+// }
 const mongoose=require('mongoose');
 //const User=require(".//userModel");
-//const Tour=require(".//TourModel");
+const Tour=require(".//tourModel");
 const reviewSchema=new mongoose.Schema({
     review:{
         type:String,
@@ -30,7 +44,7 @@ const reviewSchema=new mongoose.Schema({
     toJSON:{virtuals:true},
     toObject:{virtuals:true}
 });
-//reviewSchema.index({tour:1,user:1},{unique:true});
+reviewSchema.index({tour:1,user:1},{unique:true});
 reviewSchema.pre(/^find/,function(next){
     this.populate({
         path:'user',
@@ -55,34 +69,34 @@ reviewSchema.statics.calcAverageRatings=async function(tourId){
             }
         }
     ]);console.log(stats);
-//     if(stats.length>0){
-//         await Tour.findByIdAndUpdate(tourId,{
-//             ratingsQuantity:stats[0].nRating,
-//             ratingsAverage:stats[0].avgRating
-//         });
-//     }else{
-//         await Tour.findByIdAndUpdate(tourId,{
-//             ratingsQuantity:0,
-//             ratingsAverage:4.5
-//         });
-//     }
+    if(stats.length>0){
+        await Tour.findByIdAndUpdate(tourId,{
+            ratingsQuantity:stats[0].nRating,
+            ratingsAverage:stats[0].avgRating
+        });
+    }else{
+        await Tour.findByIdAndUpdate(tourId,{
+            ratingsQuantity:0,
+            ratingsAverage:4.5
+        });
+    }
  }
 ///////////////////////////////////////////////////
-reviewSchema.post('save',function(){
+reviewSchema.post('save',function(){                //post middleware dos not get access to next
     this.constructor.calcAverageRatings(this.tour);
-    next();
+    //next();
 }
 );
 ////////////////////////////////////////////
-// reviewSchema.pre(/^findOneAnd/,async function(next){
-//     this.r=await this.findOne();
-//     next();
-// }
-// );
+reviewSchema.pre(/^findOneAnd/,async function(next){
+    this.r=await this.findOne();
+    next();
+}
+);
 /////////////////////////////////////////////////
-// reviewSchema.post(/^findOneAnd/,async function(){
-//     await this.r.constructor.calcAverageRatings(this.r.tour);
-// }
-// );
+reviewSchema.post(/^findOneAnd/,async function(){
+    await this.r.constructor.calcAverageRatings(this.r.tour); //await this.findOne() does not work here, query has already executed
+}
+);
 const Review=mongoose.model('Review',reviewSchema);
 module.exports=Review;

@@ -14,9 +14,13 @@ router.route('/get-stats')
 router.route('/monthly-plan/:year')
 .get(authController.protect,authController.restrictTo('admin','lead-guide','guide'),tourController.getMonthlyPlan);
 
+router.route('/tours-nearMe/:distance/center/:latlng/unit/:unit')
+.get(tourController.getToursNearMe);
+// /tours-nearMe?distance=233&center=-40,45&unit=mi
+
 router.route("/")
 .get(tourController.getAllTours)
-.post(authController.restrictTo('admin','lead-guide'),tourController.createTour);
+.post(authController.protect,authController.restrictTo('admin','lead-guide'),tourController.createTour);
 
 router.route("/:id")
 .get(tourController.getTour)
