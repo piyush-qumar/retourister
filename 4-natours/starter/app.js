@@ -1,4 +1,5 @@
 const express=require("express");
+const path=require("path");
 const bodyParser=require("body-parser");
 const rateLimit=require("express-rate-limit");
 const morgan=require("morgan");
@@ -12,6 +13,10 @@ const errorHandler=require(".//controllers//errorController");
 const mongoSanitize=require("express-mongo-sanitize");
 const xss=require("xss-clean"); 
 const hpp=require("hpp");
+app.set('view engine','pug');
+app.set('views',path.join(__dirname,'views'));
+ // serving static files
+ app.use(express.static(path.join(__dirname,'public')));
 // 1) GLOBAL MIDDLEWARES
 // Set security HTTP headers
 const limiter=rateLimit({
@@ -39,7 +44,7 @@ app.use(hpp({
         "price"
     ]
 }))
-app.use(express.static(`${__dirname}/public`)); // serving static files
+
 if(process.env.NODE_ENV==='development'){  // development login
 app.use(morgan('dev'));}
 //console.log(app.get('env'));
@@ -62,6 +67,9 @@ app.use((req,res,next)=>{
 // app.post("/api/tours",createTour);
 // app.patch("/api/tours/:id",updateTour);
 // app.delete("/api/tours/:id",deleteTour);
+app.get('/',(req,res)=>{
+    res.status(200).render("base");
+})
 app.use("/api/tours",tourRouter);
 app.use("/api/users",userRouter);
 app.use("/api/reviews",reviewRouter);
