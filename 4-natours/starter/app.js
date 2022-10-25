@@ -68,7 +68,10 @@ app.use((req,res,next)=>{
 // app.patch("/api/tours/:id",updateTour);
 // app.delete("/api/tours/:id",deleteTour);
 app.get('/',(req,res)=>{
-    res.status(200).render("base");
+    res.status(200).render("base",{
+        tour:"The Forest Hiker",
+        user:"Piyush"
+    });
 })
 app.use("/api/tours",tourRouter);
 app.use("/api/users",userRouter);
