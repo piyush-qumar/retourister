@@ -8,6 +8,7 @@ const app=express();
 const tourRouter=require("./routes/tourRoutes");
 const userRouter=require("./routes/userRoutes");
 const reviewRouter=require("./routes/reviewRoutes");
+const viewRouter=require("./routes/viewRoutes");
 const AppError=require("./utils/AppError")
 const errorHandler=require(".//controllers//errorController");
 const mongoSanitize=require("express-mongo-sanitize");
@@ -67,6 +68,7 @@ app.use((req,res,next)=>{
 // app.post("/api/tours",createTour);
 // app.patch("/api/tours/:id",updateTour);
 // app.delete("/api/tours/:id",deleteTour);
+app.use("/",viewRouter);
 app.use("/api/tours",tourRouter);
 app.use("/api/users",userRouter);
 app.use("/api/reviews",reviewRouter);
