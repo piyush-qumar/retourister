@@ -8,26 +8,16 @@ html
         //- link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css')
         //- link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css')
         //- link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css')
-        title Tourister - The best tours in the world
+        title Tourister - TBTIW | #{title}
         link(rel='stylesheet' href='../css/style.css')
         link(rel='shortcut icon' href='../img/favicon.png')
     body
-        header.header
-            nav.nav.nav--tours 
-                a.nav__el(href="#") All Tours  
-            .header__logo 
-                img(src='../img/logo-white.png' alt='Logo')
-            nav.nav.nav--user
-
-                a.nav__el Log in
-                a.nav__el.nav__el Sign up
-        //content
-        section.overview 
-            h1=tour
-
-        footer.footer
-            .footer__logo 
-                img(src='../img/logo-green.png' alt='Logo')
-            ul.footer__nav 
-                li:a(href='#') Company Contact Careers Policy Terms
-            p.footer__copyright &copy MADE WITH ❤️ BY PIYUSH
+        //HEADER
+        include _header
+        
+        //CONTENT
+        block content
+            h1 This is a placeholder heading for the content block   
+        
+        //FOOTER
+        include _footer
