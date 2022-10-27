@@ -1,6 +1,5 @@
 extends base
 include _reviewCard
-
 mixin overviewBox(label,text,icon)
     .overview-box__detail
         svg.overview-box__icon
@@ -44,10 +43,10 @@ block content
                     h2.heading-secondary.ma-bt-lg Your tour guides
                     each guide in tour.guides
                         .overview-box__detail
-                            img.overview-box__img(src='../img/users/user-19.jpg', alt='lead-guide')
-                            span.overview-box__label Lead guide
-                            span.overview-box__text Steven Miller
-                
+                            img.overview-box__img(src=`../img/users/${guide.photo}`, alt=`${guide.name}`)
+                            span.overview-box__label= guide.name
+                            span.overview-box__text= guide.role
+
         .description-box
             h2.heading-secondary.ma-bt-lg=`About ${tour.name} tour`
             - var description = tour.description.split('\n')
@@ -76,10 +75,10 @@ block content
     section.section-cta
         .cta
             .cta__img.cta__img--logo
-            img(src='/img/logo-white.png', alt='Natours logo')
-            img.cta__img.cta__img--1(src='/img/tour-5-2.jpg', alt='')
-            img.cta__img.cta__img--2(src='/img/tour-5-1.jpg', alt='')
+                img(src='/img/logo-white.png', alt='Natours logo')
+            img.cta__img.cta__img--1(src=`/img/tours/${tour.images[1]}`, alt='Tour picture')
+            img.cta__img.cta__img--2(src=`/img/tours/${tour.images[2]}`, alt='Tour picture')
             .cta__content
-            h2.heading-secondary What are you waiting for?
-            p.cta__text 10 days. 1 adventure. Infinite memories. Make it yours today!
-            button.btn.btn--green.span-all-rows Book tour now!
+                h2.heading-secondary What are you waiting for?
+                p.cta__text=`${tour.duration} days. 1 adventure. Infinite memories. Make it yours today!`
+                button.btn.btn--green.span-all-rows Book tour now!

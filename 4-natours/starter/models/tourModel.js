@@ -155,13 +155,13 @@ tourSchema.pre(/^find/,function(next){
     this.start=Date.now();
     next();
 });
-// tourSchema.pre(/^find/,function(next){  // this query middleware will remove -v and passwordchanged at from the output
-//     this.populate({
-//         path:'guides',
-//         select:'-__v -passwordChangedAt'
-//     });
-//     next();
-// })
+tourSchema.pre(/^find/,function(next){  // this query middleware will remove -v and passwordchanged at from the output
+    this.populate({
+        path:'guides',
+        select:'-__v -passwordChangedAt'
+    });
+    next();
+})
 tourSchema.post(/^find/,function(docs,next){
     console.log(`query took ${Date.now()-this.start} milliseconds`);
     //console.log(docs);
