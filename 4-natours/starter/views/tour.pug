@@ -20,11 +20,11 @@ block content
             .heading-box__group
                 .heading-box__detail
                     svg.heading-box__icon
-                        use(xlink:href='/img/icons.svg#icon-clock')
+                        use(xlink:href='../img/icons.svg#icon-clock')
                     span.heading-box__text= `${tour.duration} days`
                 .heading-box__detail
                     svg.heading-box__icon
-                        use(xlink:href='/img/icons.svg#icon-map-pin')
+                        use(xlink:href='../img/icons.svg#icon-map-pin')
                     span.heading-box__text= tour.startLocation.description
 
     section.section-description
@@ -44,9 +44,9 @@ block content
                     h2.heading-secondary.ma-bt-lg Your tour guides
                     each guide in tour.guides
                         .overview-box__detail
-                            img.overview-box__img(src=`/img/users/${guide.photo}`, alt=`${guide.name}`)
-                            span.overview-box__label= guide.role
-                            span.overview-box__text=guide.name
+                            img.overview-box__img(src='../img/users/user-19.jpg', alt='lead-guide')
+                            span.overview-box__label Lead guide
+                            span.overview-box__text Steven Miller
                 
         .description-box
             h2.heading-secondary.ma-bt-lg=`About ${tour.name} tour`
