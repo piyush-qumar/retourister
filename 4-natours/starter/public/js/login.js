@@ -24,10 +24,19 @@ const login=async(email,password)=>{
     }
 };
 // var el=document.querySelector('.form');
-document.querySelector('.form').addEventListener('submit',e=>{
+// document.querySelector('.form').addEventListener('submit',e=>{
+var el=document.querySelector('.form')
+if(el){
+    el.addEventListener('submit',e=>{
     e.preventDefault();
     const email=document.getElementById('email').value;
     const password=document.getElementById('password').value;
     login(email,password);
 }
-);
+)
+}
+else
+{
+    console.log("Not found");
+    
+}
