@@ -19,36 +19,44 @@ const hpp=require("hpp");
 app.set('view engine','pug');
 app.set('views',path.join(__dirname,'views'));
 app.use(cookieParser());
-app.use(function (req, res, next) {
-    // check if client sent cookie
-    var cookie = req.cookies.cookieName;
-    if (cookie === undefined) {
-      // no: set a new cookie
-      var randomNumber=Math.random().toString();
-      randomNumber=randomNumber.substring(2,randomNumber.length);
-      res.cookie('jwt',randomNumber, { maxAge: 9900000, httpOnly: true });
-      console.log('cookie created successfully');
-    } else {
-      // yes, cookie was already present 
-      console.log('cookie exists', cookie);
-    } 
-    console.log(req.cookies);
-    next(); // <-- important!
-  });
+// app.use(function (req, res, next) {
+//     // check if client sent cookie
+//     var cookie = req.cookies.cookieName;
+//     if (cookie === undefined) {
+//       // no: set a new cookie
+//       var randomNumber=Math.random().toString();
+//       randomNumber=randomNumber.substring(2,randomNumber.length);
+//       res.cookie('jwt',randomNumber, { maxAge: 9900000, httpOnly: true });
+//       console.log('cookie created successfully');
+//     } else {
+//       // yes, cookie was already present 
+//       console.log('cookie exists', cookie);
+//     } 
+//     console.log(req.cookies);
+//     next(); // <-- important!
+//   });
  // serving static files
  app.use(express.static(path.join(__dirname,'public')));
 // 1) GLOBAL MIDDLEWARES
 // Implement CORS
-app.use(cors());
+app.use(cors({
+    origin:'http://localhost:3000',
+    credentials:true,
+    methods:['GET','POST','PUT','DELETE'],
+    allowedHeaders:['Content-Type','Authorization'],
+    exposedHeaders:['Content-Type','Authorization'],
+    preflightContinue:false,
+    optionsSuccessStatus:204,
+}));
 // Access-Control-Allow-Origin *
 // api.natours.com, front-end natours.com
 app.options('*',cors());
-// app.use((req,res,next)=>{
-//     res.setHeader('Access-Control-Allow-Origin','*');
-//     res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE');
-//     res.setHeader('Access-Control-Allow-Headers','Content-Type,Authorization');
-//     next();
-// });
+app.use((req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','*');
+    res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE');
+    res.setHeader('Access-Control-Allow-Headers','Content-Type,Authorization');
+    next();
+});
 
 // Set security HTTP headers
 const limiter=rateLimit({
@@ -94,7 +102,7 @@ app.use((req,res,next)=>{
 }) ;
 app.use((req,res,next)=>{
     req.time=new Date().toISOString();
-    //console.log(req.cookies);
+    console.log(req.cookies);
     //console.log(req.headers);// this is to check the headers
     next();
 })

@@ -20,7 +20,7 @@ const login=async(email,password)=>{
     }
     catch(err){
         console.log(err);
-        // alert(err.response.data.message);
+        alert(err.response.data.message);
     }
 };
 // var el=document.querySelector('.form');
