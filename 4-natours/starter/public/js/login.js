@@ -1,5 +1,6 @@
 // import '@babel/polyfill'  // aint't working hence commented out also giving rise to unwanted bugs
 //import { showAlert} from './alerts';
+//(updatesettings.js)file (login file) and (alert.js) files are submerged into this one file
 const hideAlert=()=>{
     const el=document.querySelector('.alert');
     if(el) el.parentElement.removeChild(el);
@@ -38,7 +39,7 @@ const login=async(email,password)=>{
 };
 // var el=document.querySelector('.form');
 // document.querySelector('.form').addEventListener('submit',e=>{
-var el=document.querySelector('.form')
+var el=document.querySelector('.form--login')
 if(el){
     el.addEventListener('submit',e=>{
     e.preventDefault();
@@ -67,3 +68,45 @@ const logout=async()=>{
 };
 if(document.querySelector('.nav__el--logout')) 
 document.querySelector('.nav__el--logout').addEventListener('click',logout);
+
+const updateSettings=async(data,type)=>{
+    try{
+        const url=type==='password'? 'http://127.0.0.1:3000/api/users/updateMyPassword':'http://127.0.0.1:3000/api/users/updateMe';
+        const res=await axios({
+            method:'PATCH',
+            url,
+            data
+        });
+        if(res.data.status==='success'){
+            showAlert('success',`${type.toUpperCase()} updated successfully!`);
+        }
+        }catch(err){
+            showAlert('error');
+        }
+    };
+const userDataForm=document.querySelector('.form-user-data');
+if(userDataForm)
+userDataForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    const name=document.getElementById('name').value;
+    const email=document.getElementById('email').value;
+    updateSettings({name,email},'data');
+});
+
+const userPasswordForm=document.querySelector('.form-user-password');
+
+if(userPasswordForm)
+userPasswordForm.addEventListener('submit',async e=>{
+    e.preventDefault();
+    document.querySelector('.btn--save-password').textContent='Updating...';
+
+    const passwordCurrent=document.getElementById('password-current').value;
+    const password=document.getElementById('password').value;
+    const passwordConfirm=document.getElementById('password-confirm').value;
+    await updateSettings({passwordCurrent,password,passwordConfirm},'password');
+    
+    document.querySelector('.btn--save-password').textContent='Save password';
+    document.getElementById('password-current').value='';
+    document.getElementById('password').value='';
+    document.getElementById('password-confirm').value='';
+});

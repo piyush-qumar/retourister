@@ -73,7 +73,7 @@ app.use(
 
 //middlewares
 app.use(express.json());
-//app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.urlencoded({extended:true}));
 // data saniize using ,ongosantize(for ex {"$gt":""}) and xss(for ex <script>alert("hello")</script>)
 app.use(mongoSanitize());
 // data sanitize against xss
@@ -102,7 +102,7 @@ app.use((req,res,next)=>{
 }) ;
 app.use((req,res,next)=>{
     req.time=new Date().toISOString();
-    console.log(req.cookies);
+    //console.log(req.cookies);
     //console.log(req.headers);// this is to check the headers
     next();
 })
