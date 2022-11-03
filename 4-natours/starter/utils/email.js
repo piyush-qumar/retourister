@@ -39,9 +39,7 @@ module.exports=class Email{
             to:this.to,
             subject,
             html,
-            text:htmlToText(html,{
-                wordwrap:130
-            })
+            text:htmlToText.fromString(html)
         };
         await this.newTransport().sendMail(mailOptions);
     }

@@ -9,6 +9,7 @@ const app=express();
 const tourRouter=require("./routes/tourRoutes");
 const userRouter=require("./routes/userRoutes");
 const reviewRouter=require("./routes/reviewRoutes");
+const bookingRouter=require("./routes//bookingRoutes");
 const viewRouter=require("./routes/viewRoutes");
 const AppError=require("./utils/AppError")
 const errorHandler=require(".//controllers//errorController");
@@ -117,6 +118,7 @@ app.use("/",viewRouter);
 app.use("/api/tours",tourRouter);
 app.use("/api/users",userRouter);
 app.use("/api/reviews",reviewRouter);
+app.use("/api/bookings",bookingRouter);
 app.all("*",(req,res,next)=>{
     next(new AppError(`Invalid endpoint`));
     // const err=new Error(`Invalid endpoint`);
